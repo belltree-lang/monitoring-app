@@ -1,0 +1,2 @@
+# clasp の秘密ファイルを追跡しない
+.clasprc.json
