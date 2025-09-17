@@ -22,10 +22,8 @@ jobs:
         run: npm install -g @google/clasp
 
       - name: Authenticate with Google
-        env:
-          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
         run: |
-          echo "$CLASPRC_JSON" > ~/.clasprc.json
+          echo '${{ secrets.CLASPRC_JSON }}' > ~/.clasprc.json
 
       - name: Push code to Google Apps Script
         run: clasp push -f
