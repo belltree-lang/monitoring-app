@@ -10,20 +10,26 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      # リポジトリをチェックアウト
+      - uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      # Node.js セットアップ
+      - uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      - name: Install clasp
-        run: npm install -g @google/clasp
+      # clasp インストール
+      - run: npm install -g @google/clasp
 
+      # Google 認証
       - name: Authenticate with Google
+        env:
+          CLASPRC_JSON: ${{ secrets.CLASPRC_JSON }}
         run: |
-          echo "${{ secrets.CLASPRC_JSON }}" | base64 -d > ~/.clasprc.json
+          echo "$CLASPRC_JSON" | base64 -d > ~/.clasprc.json
+          echo "=== ~/.clasprc.json ==="
+          cat ~/.clasprc.json
 
-      - name: Push code to Google Apps Script
+      # デプロイ
+      - name: Push to Google Apps Script
         run: clasp push -f
